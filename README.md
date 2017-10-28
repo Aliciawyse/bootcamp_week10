@@ -2,7 +2,7 @@
 
 ### Overview
 
-In this week's assignment, you will create a hangman command-line game using constructor functions.
+I created a hangman command-line game using constructor functions.
 
 ## Instructions
 
@@ -21,3 +21,7 @@ The completed game should meet the following criteria:
 4. Each constructor function should be in it's own file and be exported and required wherever needed.
 
 5. Look into [function prototypes](https://www.thecodeship.com/web-development/methods-within-constructor-vs-prototype-in-javascript/) and use them for a few of your constructor's methods.
+
+## It's a work in progress
+
+At the moment the words to guess are apple, orange and pear. And, the game simply returns an updated array with the letter you've guessed -- if you've guessed correctly. 
