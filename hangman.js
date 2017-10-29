@@ -25,20 +25,8 @@ inquirer
 function Word () {
     this.choices = ['apple', 'orange', 'pear'];
     this.num = Math.floor((Math.random() * this.choices.length) + 1) - 1;
-    this.val = this.choices[this.num];
+    this.val = this.choices[this.num].split("");
     this.placeholder = [];
-    this.guess = function (ltr) {
-        //console.log("This is the word to guess was", this.val);
-        //adjust so that if true replace underscore with letter if it's false
-        if (this.val.indexOf(ltr) === -1) {
-            //return [];
-            return undefined;
-        } else {
-            //console.log(true);
-            //return [this.val.indexOf(ltr)];
-            return this.val.indexOf(ltr);
-        }
-    };
     this.buildPlaceholder = function (){
 
         var displayWord = [];
@@ -51,14 +39,46 @@ function Word () {
 
         //put "_ _ _ _ _" it in placeholder
         this.placeholder = displayWord;
-        console.log("the placeholder array", this.placeholder);
+        //console.log("the placeholder array", this.placeholder);
+    };
+
+    this.updatePlaceholder = function(theLetterGuessed, chosenLetter){
+
+        var correctLetterGuessed = false;
+
+        //going through two arrays in a for loop!
+        for (var i = 0; i < this.placeholder.length; i ++){
+
+            //compare
+            // ['p','e','a','r']
+            // ['_','_','_','_']
+
+            if (this.val[i] === theLetterGuessed){
+            // then update placeholder
+                this.placeholder[i] = theLetterGuessed;
+
+                correctLetterGuessed = true;
+            }
+        }
+
+        if (correctLetterGuessed === false){
+            console.log("Wrong choice");
+            chosenLetter.decreaseGuessesLeft();
+            console.log(chosenLetter.guessLeft);
+        }
 
 
+        if (chosenLetter.guessLeft === 0){
+            return console.log("Game Over!");
+        }
+
+        console.log("updating?", this.placeholder);
     }
 }
 
 //Letter constructor
-function Letter(numGuess = 12){
+function Letter(numGuess = 3){
+
     this.maxGuess = numGuess; //this won't be mutable
     this.guessLeft = numGuess; //this will be mutable
 }
@@ -93,12 +113,12 @@ function Game () {
 
             var chosenLetter = new Letter();
 
+            //console.log("chosenletterGuess", chosenLetter.maxGuess);
+
             //creates placeholder (underscores)
             chosenWord.buildPlaceholder();
 
             processGame(chosenWord, chosenLetter);
-
-
 
     };
 
@@ -115,44 +135,17 @@ function Game () {
         ]).then(function (answer) {
             //theWord = chosenWord.val;
 
-            console.log("answer", answer);
-            var result = chosenWord.guess(answer.name);
-            console.log(result);
+            //console.log("answer", answer);
+            //var result = chosenWord.guess(answer.name);
 
-            if (result === undefined) {
-                //dont update dashes, decrease number of guesses left
-                chosenLetter.decreaseGuessesLeft();
-                console.log(chosenLetter.guessLeft);
-            } else {
 
-                //update placeholder
-                chosenWord.placeholder[result] = answer.name;
+            chosenWord.updatePlaceholder(answer.name, chosenLetter);
 
-                //var arr = []
-                //arr = chosenWord.placeholder.trim().split(" ");
+            processGame(chosenWord, chosenLetter);
 
-                //console.log("this is the array", arr);
-
-                //review this
-                //if (result !== undefined) arr[result] = answer.name;
-
-                //console.log(arr);
-                console.log(chosenWord.placeholder);
-
-                //arr[2] = answer.na,e
-                // if game needs to continue
-                // call start game
-                processGame(chosenWord, chosenLetter);
-            }
         });
-    };
+    }
 }
 
-
-// Game.prototype.startGame = function (){
-//     console.log("Welcome to Hangman");
-//     var chosenWord = new Word();
-//     console.log(chosenWord.val);
-// };
 Game.prototype.losingGame = function (){};
 Game.prototype.winGame = function (){};
