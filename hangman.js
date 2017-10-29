@@ -1,8 +1,6 @@
 //load npm package inquirer
 var inquirer = require("inquirer");
 
-
-
 //create prompt with series of questions
 inquirer
     .prompt([
@@ -21,7 +19,6 @@ inquirer
             } else {
             console.log("Okay, maybe next time? Have a great day!")
         }
-
 });
 
 //Word constructor
@@ -29,9 +26,9 @@ function Word () {
     this.choices = ['apple', 'orange', 'pear'];
     this.num = Math.floor((Math.random() * this.choices.length) + 1) - 1;
     this.val = this.choices[this.num];
-    this.placeholder = "";
+    this.placeholder = [];
     this.guess = function (ltr) {
-        console.log(this.val);
+        //console.log("This is the word to guess was", this.val);
         //adjust so that if true replace underscore with letter if it's false
         if (this.val.indexOf(ltr) === -1) {
             //return [];
@@ -44,11 +41,19 @@ function Word () {
     };
     this.buildPlaceholder = function (){
 
-        var displayWord = "";
+        var displayWord = [];
+
+        //get the length of the word to guess
+        //then create something looking like "_ _ _ _ _"
         for (var i = 0; i < this.val.length; i++){
-            displayWord = displayWord + '_ ';
+            displayWord.push('_');
         }
+
+        //put "_ _ _ _ _" it in placeholder
         this.placeholder = displayWord;
+        console.log("the placeholder array", this.placeholder);
+
+
     }
 }
 
@@ -83,13 +88,21 @@ function Game () {
 
         console.log("Welcome to Hangman");
 
-        //selects word from my array
-        var chosenWord = new Word();
+            //selects word from my array
+            var chosenWord = new Word();
 
-        var chosenLetter = new Letter();
+            var chosenLetter = new Letter();
 
-        //creates placeholder (underscores)
-        chosenWord.buildPlaceholder();
+            //creates placeholder (underscores)
+            chosenWord.buildPlaceholder();
+
+            processGame(chosenWord, chosenLetter);
+
+
+
+    };
+
+    function processGame(chosenWord, chosenLetter){
 
         //console.log(chosenWord.val);
         //console.log(chosenWord.guess('a'));
@@ -99,33 +112,42 @@ function Game () {
                 name: "name",
                 message: "Guess a letter!"
             }
-        ]).then(function(answer){
+        ]).then(function (answer) {
             //theWord = chosenWord.val;
+
             console.log("answer", answer);
             var result = chosenWord.guess(answer.name);
             console.log(result);
 
-            if (result.length === 0){
+            if (result === undefined) {
                 //dont update dashes, decrease number of guesses left
                 chosenLetter.decreaseGuessesLeft();
                 console.log(chosenLetter.guessLeft);
             } else {
 
-                //get placeholder and split it
-                var arr = chosenWord.placeholder.trim().split(" ");
+                //update placeholder
+                chosenWord.placeholder[result] = answer.name;
 
-                console.log(arr);
+                //var arr = []
+                //arr = chosenWord.placeholder.trim().split(" ");
+
+                //console.log("this is the array", arr);
 
                 //review this
-                if (result) arr[result] = answer.name;
-                console.log(arr);
+                //if (result !== undefined) arr[result] = answer.name;
+
+                //console.log(arr);
+                console.log(chosenWord.placeholder);
 
                 //arr[2] = answer.na,e
-
+                // if game needs to continue
+                // call start game
+                processGame(chosenWord, chosenLetter);
             }
-        })
+        });
     };
 }
+
 
 // Game.prototype.startGame = function (){
 //     console.log("Welcome to Hangman");
