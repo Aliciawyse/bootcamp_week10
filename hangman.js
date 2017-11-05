@@ -46,6 +46,9 @@ function Word () {
 
         var correctLetterGuessed = false;
 
+
+
+
         //going through two arrays in a for loop!
         for (var i = 0; i < this.placeholder.length; i ++){
 
@@ -58,16 +61,12 @@ function Word () {
                 this.placeholder[i] = theLetterGuessed;
 
                 correctLetterGuessed = true;
-
-                //compare here
-
             }
         }
 
         if (correctLetterGuessed === false){
-            console.log("Wrong choice");
             chosenLetter.decreaseGuessesLeft();
-            console.log("You have this many guesses left: ", chosenLetter.guessLeft);
+            console.log("Wrong choice! You have this many guesses left: ", chosenLetter.guessLeft);
         }
 
 
@@ -75,7 +74,14 @@ function Word () {
             return console.log("Game Over!");
         }
 
-        //console.log("updating?", this.placeholder);
+        //console.log("the word", this.val.join(""), "the placeholder", this.placeholder.join(""));
+
+        //compare here
+        if (this.val.join("") === this.placeholder.join("")){
+            console.log("You won");
+            //reset game
+            
+        }
     }
 }
 
@@ -93,14 +99,6 @@ Letter.prototype.resetGuessesLeft = function(){
 
 Letter.prototype.decreaseGuessesLeft = function(){
     this.guessLeft--;
-};
-
-Letter.prototype.guessLetter = function(){
-    //guess letter
-};
-
-Letter.prototype.displayWord = function(){
-    //display word
 };
 
 
@@ -125,16 +123,12 @@ function Game () {
 
     };
 
-    //create a check if game won -- "instance method"
-    this.gameWon = function (){
-        console.log("checking if game won", chosenWord);
-    };
-
     function processGame(chosenWord, chosenLetter){
 
         //console.log(chosenWord.val);
         //console.log(chosenWord.guess('a'));
-        console.log("The word now looks like this", chosenWord.placeholder);
+        console.log("The word now looks like this: ", chosenWord.placeholder.join(" "));
+
         inquirer.prompt([
             {
                 name: "name",
