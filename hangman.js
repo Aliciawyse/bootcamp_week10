@@ -16,7 +16,7 @@ inquirer
             //initialize the variable game to be a Game object
             var game = new Game();
             game.startGame();
-            } else {
+        } else {
             console.log("Okay, maybe next time? Have a great day!")
         }
 });
@@ -58,13 +58,16 @@ function Word () {
                 this.placeholder[i] = theLetterGuessed;
 
                 correctLetterGuessed = true;
+
+                //compare here
+
             }
         }
 
         if (correctLetterGuessed === false){
             console.log("Wrong choice");
             chosenLetter.decreaseGuessesLeft();
-            console.log(chosenLetter.guessLeft);
+            console.log("You have this many guesses left: ", chosenLetter.guessLeft);
         }
 
 
@@ -72,7 +75,7 @@ function Word () {
             return console.log("Game Over!");
         }
 
-        console.log("updating?", this.placeholder);
+        //console.log("updating?", this.placeholder);
     }
 }
 
@@ -122,6 +125,11 @@ function Game () {
 
     };
 
+    //create a check if game won -- "instance method"
+    this.gameWon = function (){
+        console.log("checking if game won", chosenWord);
+    };
+
     function processGame(chosenWord, chosenLetter){
 
         //console.log(chosenWord.val);
@@ -142,6 +150,12 @@ function Game () {
             chosenWord.updatePlaceholder(answer.name, chosenLetter);
 
             processGame(chosenWord, chosenLetter);
+
+            //console.log("the chosen word", chosenWord.val.join(""));
+
+            //console.log("the user's word", chosenWord.updatePlaceholder(answer.name, chosenLetter));
+
+            //if (chosenWord.val.join("") === )
 
         });
     }
