@@ -39,7 +39,6 @@ function Word () {
 
         //put "_ _ _ _ _" it in placeholder
         this.placeholder = displayWord;
-        //console.log("the placeholder array", this.placeholder);
     };
 
     this.updatePlaceholder = function(theLetterGuessed, chosenLetter){
@@ -80,7 +79,7 @@ function Word () {
         if (this.val.join("") === this.placeholder.join("")){
             console.log("You won");
             //reset game
-            
+
         }
     }
 }
@@ -114,8 +113,6 @@ function Game () {
 
             var chosenLetter = new Letter();
 
-            //console.log("chosenletterGuess", chosenLetter.maxGuess);
-
             //creates placeholder (underscores)
             chosenWord.buildPlaceholder();
 
@@ -125,8 +122,6 @@ function Game () {
 
     function processGame(chosenWord, chosenLetter){
 
-        //console.log(chosenWord.val);
-        //console.log(chosenWord.guess('a'));
         console.log("The word now looks like this: ", chosenWord.placeholder.join(" "));
 
         inquirer.prompt([
@@ -135,21 +130,11 @@ function Game () {
                 message: "Guess a letter!"
             }
         ]).then(function (answer) {
-            //theWord = chosenWord.val;
-
-            //console.log("answer", answer);
-            //var result = chosenWord.guess(answer.name);
-
 
             chosenWord.updatePlaceholder(answer.name, chosenLetter);
 
             processGame(chosenWord, chosenLetter);
 
-            //console.log("the chosen word", chosenWord.val.join(""));
-
-            //console.log("the user's word", chosenWord.updatePlaceholder(answer.name, chosenLetter));
-
-            //if (chosenWord.val.join("") === )
 
         });
     }
