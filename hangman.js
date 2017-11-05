@@ -79,6 +79,8 @@ function Word () {
         if (this.val.join("") === this.placeholder.join("")){
             console.log("You won");
             //reset game
+            //var game2 = new Game();
+            //game2.startGame();
 
         }
     }
